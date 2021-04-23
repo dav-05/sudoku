@@ -1,6 +1,7 @@
 import random
 
 
+
 #referenzmatrix
 A = [
         ["[0][0]", "[0][1]", "[0][2]", "[0][3]", "[0][4]"],
@@ -10,6 +11,8 @@ A = [
         ["[4][0]", "[4][1]", "[4][2]", "[4][3]", "[4][4]"],
     ]
 
+
+
 def print_grid(grid):
     print("\n")
     for row in grid:
@@ -17,39 +20,58 @@ def print_grid(grid):
     print("\n")
 
 
-def give_subgrid(x,y):  # determines which subgrid x,y is in
+def give_subgrid(x,y):  
+
+    """ determines which subgrid entry at x,y is in counting from top left to bottom right
+
+    Args:
+        x (int): cols-dim
+        y (int): rows-dim
+
+    Returns:
+        int: subgrid position 
+    """
 
     if 0 <= x <= 2 and 0 <= y <= 2:
         return 0
-        # return dict_subgrid_list["1"]
+        
     if 0 <= x <= 2 and 3 <= y <= 5:
         return 3
-        # return dict_subgrid_list["4"]
+        
     if 0 <= x <= 2 and 6 <= y <= 8:
         return 6
-        # return dict_subgrid_list["7"]
+        
     if 3 <= x <= 5 and 0 <= y <= 2:
         return 1
-        # return dict_subgrid_list["2"]
+        
     if 3 <= x <= 5 and 3 <= y <= 5:
         return 4
-        # return dict_subgrid_list["3"]
+       
     if 3 <= x <= 5 and 6 <= y <= 8:
         return 7
-        # return dict_subgrid_list["8"]
+        
     if 6 <= x <= 8 and 0 <= y <= 2:
         return 2
-        # return dict_subgrid_list["3"]
+        
     if 6 <= x <= 8 and 3 <= y <= 5:
         return 5
-        # return dict_subgrid_list["6"]
+        
     if 6 <= x <= 8 and 6 <= y <= 8:
         return 8
-        # return dict_subgrid_list["9"]
+        
 
 
 
 def generator(grd):
+
+    """generates Sudoku Puzzle, 0 is empty entry
+
+    Args:
+        grd (2D list): 9x9 should be initialized with 0
+
+    Returns:
+        [bool, int]: [Generating Error, highest diagonal position where Error occured]
+    """
 
     print("\n ----NEW ATTEMPT----")
 
@@ -57,47 +79,15 @@ def generator(grd):
     max_k = 0
     Error = False
 
-    subgrid_list = [
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    ]
-    x_list = [
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    ]
+    x_list = [[x for x in range(9)] for x in range(9)]
+    y_list = [[x for x in range(9)] for x in range(9)]
+    subgrid_list = [[x for x in range(9)] for x in range(9)]
 
-    y_list = [
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    ]
 
-    for k in range(9):  # iterates rows = y-dim
-        for l in range(9):  # iterates cols = x-dim
-
-            if k == l:  # hold diag element
-                # print("\ndiagpos = " + str(k))      ###DEBUG###
-                # print_grid(grid)                
+    for k in range(9):              # iterates rows = y-dim
+        for l in range(9):          # iterates cols = x-dim
+            if k == l:              # hold diag element
+               
             
                 for i in range(9):  # cols = x-dim
 
@@ -131,7 +121,7 @@ def generator(grd):
                     print("\ndiagpos = " + str(k))      
                     print_grid(grid)
                     max_k = k
-                    print("#LIST_NOT_EMPTY_ERROR at y_list["+ str(k) +"]: " + str(Error))    
+                    print("#ERROR at y_list["+ str(k) +"]: " + str(Error))    
                     grid = [[0 for x in range(9)] for x in range(9)]
                     return [False, max_k]
 
@@ -172,47 +162,27 @@ def generator(grd):
                     print("\ndiagpos = " + str(k))      
                     print_grid(grid)
 
-                    print("#LIST_NOT_EMPTY_ERROR at x_list["+ str(k) +"]: " + str(Error))    
+                    print("#ERROR at x_list["+ str(k) +"]: " + str(Error))    
                     grid = [[0 for x in range(9)] for x in range(9)]
                     return [False, max_k]
                 
     return [True, max_k]
 
 
+def main(grd, iter):
+    
+    """main loop: either Fails or Succeds with debug statement 
 
-# grid1 = [[0 for x in range(9)] for x in range(9)]
-# grid1[0][0] = 1
-# grid1[0][1] = 2
-# grid1[0][2] = 3
-# grid1[1][0] = 4
-# grid1[1][1] = 5
-# grid1[1][2] = 6
-# grid1[2][0] = 7
-# grid1[2][1] = 8
-# grid1[2][2] = 9
-# grid2 = [[0 for x in range(9)] for x in range(9)]
-# grid3 = [[0 for x in range(9)] for x in range(9)]
-# grid4 = [[0 for x in range(9)] for x in range(9)]
-grid5 = [[0 for x in range(9)] for x in range(9)]
-
-
-# generator_row(grid2)
-# generator_subgrid(grid3)
-# generator_col(grid4)
-# print("row:")
-# print_grid(grid2)
-# print("subgrid:")
-# print_grid(grid3)
-# print("col:")
-# print_grid(grid4)
-
-def main(grd, rep):
+    Args:
+        grd (2D list): 9x9 should be init with 0
+        iter (int): 10^iter iterations until break
+    """
 
     c = 0
     max_k = 0
 
     while not generator(grd)[0]:
-        if c < 10**rep: 
+        if c < 10**iter: 
 
             grd = [[0 for x in range(9)] for x in range(9)]
             k = generator(grd)[1]
@@ -224,19 +194,17 @@ def main(grd, rep):
         else:
             break
 
-    if c < 10**rep:
+    if c < 10**iter:
         print("----------SUCCESS---------- \n grid generated:\n")
         print_grid(grd)
         print("\n---------------------------\n")
     else:
-        print("\n\n-------FAIL------- \n AFTER ATTEMPT: " + str(10**rep) +  "\n highest diag: " + str(max_k) + "\n------------------\n")
-    
-
-main(grid5, 6)
-
-# print("\n\n\nsubgrid_test:")
-# print("0,4 (3): " + str(give_subgrid(0, 4)))
-# print("1,5 (3): " + str(give_subgrid(1, 5)))
-# print("6,3 (5): " + str(give_subgrid(6, 3)))
+        print("\n\n-------FAIL------- \n AFTER ATTEMPT: " + str(10**iter) +  "\n highest diag: " + str(max_k) + "\n------------------\n")
 
 
+
+###########################################
+
+# grid1 = [[0 for x in range(9)] for x in range(9)]
+
+# main(grid1, 6)
